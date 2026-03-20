@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "desktop-automation": {
+      "command": "node",
+      "args": ["/path/to/mcp-server.js"],
+      "env": {
+        "YDOTOOL_SOCKET": "/tmp/.ydotool_socket"
+      }
+    }
+  }
+}
