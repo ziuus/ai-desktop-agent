@@ -1,0 +1,19 @@
+{
+  "name": "desktop-automation-mcp",
+  "version": "1.0.0",
+  "description": "MCP Server for Desktop Automation - AI-powered GUI control",
+  "main": "mcp-server.js",
+  "type": "module",
+  "bin": {
+    "desktop-automation-mcp": "mcp-server.js"
+  },
+  "scripts": {
+    "start": "node mcp-server.js"
+  },
+  "keywords": ["mcp", "desktop", "automation", "ai", "gui", "ydotool"],
+  "license": "MIT",
+  "author": "zius",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1"
+  }
+}

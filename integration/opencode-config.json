@@ -1,0 +1,16 @@
+// OpenCode config - ~/.config/opencode/opencode.json
+{
+  "mcp": {
+    "desktop-automation": {
+      "command": "node",
+      "args": ["/home/zius/ai-desktop-agent/integration/mcp-server.js"],
+      "env": {
+        "YDOTOOL_SOCKET": "/tmp/.ydotool_socket"
+      }
+    }
+  },
+  "plugin": [
+    "@different-ai/opencode-browser",
+    "opencode-agent-memory"
+  ]
+}
