@@ -1,0 +1,28 @@
+#!/bin/bash
+# Working indicator - shows a notification when busy
+
+INDICATOR_FILE="/tmp/opencode-working-indicator"
+
+case "$1" in
+    show)
+        shift
+        msg="${1:-Working...}"
+        echo "$msg" > "$INDICATOR_FILE"
+        notify-send -u critical -t 0 -a "OpenCode" "🤖 $msg" "I'm working on your task..." 2>/dev/null || \
+        echo "🤖 $msg" > "$INDICATOR_FILE"
+        ;;
+    hide)
+        rm -f "$INDICATOR_FILE"
+        notify-send -u low -t 1000 -a "OpenCode" "✅ Done!" "Task complete." 2>/dev/null || true
+        ;;
+    status)
+        if [ -f "$INDICATOR_FILE" ]; then
+            echo "Working: $(cat "$INDICATOR_FILE")"
+        else
+            echo "Idle"
+        fi
+        ;;
+    *)
+        echo "Usage: working-indicator show [message] | hide | status"
+        ;;
+esac

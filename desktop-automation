@@ -1,0 +1,58 @@
+#!/bin/bash
+# Desktop automation helpers
+
+SCREENSHOT_DIR="/tmp/automation"
+mkdir -p "$SCREENSHOT_DIR"
+
+case "$1" in
+    screenshot)
+        scrot "$SCREENSHOT_DIR/screen.png"
+        echo "$SCREENSHOT_DIR/screen.png"
+        ;;
+    click)
+        x="$2" y="$3"
+        ydotool mousemove "$x" "$y" && ydotool click 0
+        ;;
+    move)
+        ydotool mousemove "$2" "$3"
+        ;;
+    type)
+        ydotool type "$2"
+        ;;
+    key)
+        ydotool key "$2"
+        ;;
+    find)
+        # Requires: pip install opencv-python numpy pillow
+        python3 - <<EOF
+import cv2
+import numpy as np
+from PIL import Image
+import sys
+
+def find_image(template_path, threshold=0.8):
+    import pyautogui
+    screenshot = pyautogui.screenshot()
+    screenshot_np = cv2.cvtColor(np.array(screenshot), cv2.COLOR_RGB2BGR)
+    template = cv2.imread(template_path, cv2.IMREAD_COLOR)
+    
+    result = cv2.matchTemplate(screenshot_np, template, cv2.TM_CCOEFF_NORMED)
+    _, max_val, _, max_loc = cv2.minMaxLoc(result)
+    
+    if max_val >= threshold:
+        x, y = max_loc
+        w, h = template.shape[1], template.shape[0]
+        print(f"Found at: {x + w//2}, {y + h//2}")
+        return (x + w//2, y + h//2)
+    else:
+        print("Not found")
+        return None
+
+if len(sys.argv) > 2:
+    find_image(sys.argv[2])
+EOF
+        ;;
+    *)
+        echo "Usage: desktop screenshot|click X Y|move X Y|type TEXT|key KEY|find IMAGE_PATH"
+        ;;
+esac
