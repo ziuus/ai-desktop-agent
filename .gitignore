@@ -14,3 +14,4 @@ Thumbs.db
 
 # Screenshot captures
 screen*.png
+node_modules/
