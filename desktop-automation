@@ -6,7 +6,12 @@ mkdir -p "$SCREENSHOT_DIR"
 
 case "$1" in
     screenshot)
-        scrot "$SCREENSHOT_DIR/screen.png"
+        # Use grim for Wayland, fallback to scrot for X11
+        if command -v grim >/dev/null 2>&1 && [ -n "$WAYLAND_DISPLAY" ]; then
+            grim "$SCREENSHOT_DIR/screen.png"
+        else
+            scrot "$SCREENSHOT_DIR/screen.png"
+        fi
         echo "$SCREENSHOT_DIR/screen.png"
         ;;
     click)
